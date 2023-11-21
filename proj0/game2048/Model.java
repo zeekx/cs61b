@@ -118,6 +118,7 @@ public class Model extends Observable {
         final  int SIZE = size();
         board.setViewingPerspective(side);
         for (int c = 0; c < SIZE; c++) {
+            //The tile has been merged(born) and can't be merged again until the next movement when it grows to an adult.
             ArrayList<Tile> kids = new ArrayList<>();
             for (int r = SIZE - 1; r >= 0; r--) {
                 boolean hasChanged = goHead(board.tile(c, r), c, r, kids);
@@ -144,6 +145,7 @@ public class Model extends Observable {
                 steps += 1;
                 continue; // Save this line
             } else {
+                // has a non-null tile, should break
                 if (!kids.contains(leadingTile) && leadingTile.value() == tile.value()) {
                     boolean merged = board.move(col, r, tile);
                     if (merged) {
@@ -152,6 +154,7 @@ public class Model extends Observable {
                     }
                     return true; // move or merge are both changed the board
                 }
+                break; //fix the bug: column::2/4/0/2 => 4/4/0/0 ## The last combine with the first(skip the non-tile)
             }
         }
         if (steps != 0) {
