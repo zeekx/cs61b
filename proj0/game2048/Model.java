@@ -1,11 +1,12 @@
 package game2048;
 
+import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author Pink White
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -114,11 +115,51 @@ public class Model extends Observable {
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
 
+        final  int SIZE = size();
+        board.setViewingPerspective(side);
+        for (int c = 0; c < SIZE; c++) {
+            ArrayList<Tile> kids = new ArrayList<>();
+            for (int r = SIZE - 1; r >= 0; r--) {
+                boolean hasChanged = goHead(board.tile(c, r), c, r, kids);
+                changed = hasChanged || changed;
+            }
+            kids.clear();
+        }
+        board.setViewingPerspective(Side.NORTH);
         checkGameOver();
         if (changed) {
             setChanged();
         }
         return changed;
+    }
+
+    private boolean goHead(Tile tile, int col, int row, ArrayList<Tile> kids) {
+        int steps = 0;
+        if (tile == null) {
+            return false;
+        }
+        for (int r = row+1; r < size(); r++) {
+            Tile leadingTile = this.board.tile(col, r);
+            if (leadingTile == null) {
+                steps += 1;
+                continue; // Save this line
+            } else {
+                if (!kids.contains(leadingTile) && leadingTile.value() == tile.value()) {
+                    boolean merged = board.move(col, r, tile);
+                    if (merged) {
+                        kids.add(tile.next());
+                        score += tile.next().value();
+                    }
+                    return true; // move or merge are both changed the board
+                }
+            }
+        }
+        if (steps != 0) {
+            board.move(col, row + steps, tile);
+            return true;
+        }
+        
+        return false;
     }
 
     /** Checks if the game is over and sets the gameOver variable
@@ -138,7 +179,17 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
-        return false;
+        final int size = b.size();
+        boolean hasEmptySpace = false;
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c < size; c++) {
+                if (b.tile(c, r) == null) {
+                    hasEmptySpace = true;
+                    break;
+                }
+            }
+        }
+        return hasEmptySpace;
     }
 
     /**
@@ -147,8 +198,18 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
-        return false;
+        final int size = b.size();
+        boolean hasMaxTile = false;
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c < size; c++) {
+                Tile tile = b.tile(c, r);
+                if (tile != null && tile.value() >= MAX_PIECE) {
+                    hasMaxTile = true;
+                    break;
+                }
+            }
+        }
+        return hasMaxTile;
     }
 
     /**
@@ -158,7 +219,35 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        final int size = b.size();
+
+        if (emptySpaceExists(b)) {
+            return  true;
+        }
+        // There are at least one pair of adjacent tiles with the same value
+        // 1.1 in horizontal
+        // 1.2 in vertical
+        // There are NO empty space at this time!!!
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c + 1 < size; c++) {
+                Tile tile = b.tile(c, r);
+                Tile nextTile = b.tile(c+1, r);
+                if (tile.value() == nextTile.value()) {
+                    return true;
+                }
+            }
+        }
+
+        // 1.2
+        for (int c = 0; c < size; c++) {
+            for (int r = 0; r + 1 < size; r++) {
+                Tile tile = b.tile(c, r);
+                Tile nextTile = b.tile(c, r + 1);
+                if (tile.value() == nextTile.value()) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
