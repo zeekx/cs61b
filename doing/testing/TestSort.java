@@ -1,5 +1,8 @@
 package testing;
 
+import static org.junit.Assert.*;
+import org.junit.Test;
+
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class TestSort {
@@ -10,7 +13,7 @@ public class TestSort {
 //        testSort();
 //    }
 
-    @org.junit.Test
+    @Test
     public void testSortA() {
         String[] input = {"i", "have", "an", "egg"};
         String[] expected = {"an", "egg", "have", "i"};
@@ -22,7 +25,7 @@ public class TestSort {
     /**
      * Test the Sort.findSamllest method.
      */
-    @org.junit.Test
+    @Test
     public void testFindSmallestA() {
         String[] input = {"i", "have", "an", "egg"};
         int start = 0;
@@ -32,7 +35,7 @@ public class TestSort {
         org.junit.Assert.assertEquals(expected, get);
     }
 
-    @org.junit.Test
+    @Test
     public void testFindSmallestB() {
         String[] input = {"i", "have", "an", "egg"};
         int start = 3;
@@ -41,7 +44,7 @@ public class TestSort {
         int get = Sort.findSmallest(input, start);
         org.junit.Assert.assertEquals(expected, get);
     }
-    @org.junit.Test
+    @Test
     public void testSwap() {
         String[] input = {"i", "have", "an", "egg"};
         int a = 0;
