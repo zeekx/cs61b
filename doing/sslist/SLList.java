@@ -36,23 +36,13 @@ public class SLList {
         return this.head.next.item;
     }
 
-    public void addAtLast(int x) {
+    public void addLast(int x) {
         this.size += 1;
         IntNode p = this.head;
         while (p.next != null) {
             p = p.next;
         }
         p.next = new IntNode(x, null);
-    }
-
-    public void __addAtLast(int x) {
-        IntNode p = this.head;
-        while (p.next != null) {
-            p = p.next;
-        }
-        this.size += 1;
-        p.next = new IntNode(x, null);
-
     }
 
     public int getLast() {
@@ -93,7 +83,7 @@ public class SLList {
         System.out.println(lst.getFirst());
         System.out.println("lst.size:" + lst.size());
         SLList anotherList = new SLList(100);
-        anotherList.addAtLast(101);
+        anotherList.addLast(101);
         System.out.println(anotherList.getLast());
         System.out.println("anotherList.size:" + anotherList.size());
     }
