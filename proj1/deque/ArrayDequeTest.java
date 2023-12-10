@@ -145,7 +145,39 @@ public class ArrayDequeTest {
             b.addLast(2);
             assertSame("a and b both contains [1, 2], so they're equal", true, a.equals(b));
         }
+        @Test
+        public void addFirstRemoveLastCheckSize() {
+            ArrayDeque<Integer> queue = new ArrayDeque<>();
+            final int LEN = 8;
+            for (int i = 0; i < LEN; i++) {
+                queue.addFirst(i);
+            }
+            for (int i = 0; i < LEN; i++) {
+                queue.removeLast();
+            }
+            for (int i = 0; i < LEN; i++) {
+                queue.addFirst(i);
+            }
+            assertEquals(8, queue.size());
+            assertFalse(queue.isEmpty());
+        }
 
+        @Test
+        public void addFirstRemoveFirstCheckSize() {
+            ArrayDeque<Integer> queue = new ArrayDeque<>();
+            final int LEN = 8;
+            for (int i = 0; i < LEN; i++) {
+                queue.addFirst(i);
+            }
+            for (int i = 0; i < LEN; i++) {
+                queue.removeFirst();
+            }
+            for (int i = 0; i < LEN; i++) {
+                queue.addFirst(i);
+            }
+            assertEquals(8, queue.size());
+            assertFalse(queue.isEmpty());
+        }
         @Test
         public void equalsIntegerFalse() {
             ArrayDeque<Integer> a = new ArrayDeque<>();

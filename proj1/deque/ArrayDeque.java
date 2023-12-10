@@ -51,8 +51,8 @@ public class ArrayDeque<T> {
             resize((int)(this.items.length * RESIZE_FACTOR));
         }
         final int length = this.items.length;
+        this.front = isEmpty() ? this.front : (this.front - 1 + length) % length;
         items[this.front] = x;
-        this.front = (this.front - 1 + length) % length;
         size += 1;
     }
     /** Inserts X into the back of the list. */
@@ -60,13 +60,12 @@ public class ArrayDeque<T> {
         if (isFull()) { // full
             resize((int) (this.size * RESIZE_FACTOR));
         }
-        int newLast = (this.last + 1) % this.items.length;
-        items[newLast] = x;
-        this.last = newLast;
+        this.last = isEmpty() ? this.last : (this.last + 1) % this.items.length;
+        items[this.last] = x;
         size += 1;
     }
     public boolean isEmpty() {
-        return this.front == this.last;
+        return this.size == 0;
     }
 
     private void resize(int newCapacity) {
@@ -92,7 +91,7 @@ public class ArrayDeque<T> {
     }
     /** Gets the ith item in the list (0 is the front). */
     public T get(int i) {
-        return items[(this.front + i + 1) % this.items.length];
+        return items[(this.front + i) % this.items.length];
     }
 
     /** Returns the number of items in the list. */
@@ -108,11 +107,15 @@ public class ArrayDeque<T> {
         size -= 1;
         items[this.front] = null;
         this.front = (this.front + 1 + this.items.length) % this.items.length;
-        if (this.items.length >= CHECK_RATIO_CAPACITY
-                && (double)(this.size()) / this.items.length <= LOWEST_RATIO) {
+        if (shouldResize()) {
             resize((int)(this.size() * RESIZE_FACTOR));
         }
         return x;
+    }
+
+    private boolean shouldResize() {
+        return this.items.length >= CHECK_RATIO_CAPACITY
+                && (double)(this.size()) / this.items.length <= LOWEST_RATIO;
     }
     /** Deletes item from back of the list and
      * returns deleted item. */
@@ -124,8 +127,7 @@ public class ArrayDeque<T> {
         size -= 1;
         items[this.last] = null;
         this.last = (this.last - 1 + this.items.length) % this.items.length;
-        if (this.items.length >= 16
-            && (double)(this.size()) / this.items.length <= 0.25) {
+        if (shouldResize()) {
             resize((int)(this.size() * RESIZE_FACTOR));
         }
         return x;
