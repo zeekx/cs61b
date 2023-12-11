@@ -1,7 +1,5 @@
 package deque;
 
-import org.junit.Test;
-
 public class ArrayDeque<T> {
     private T[] items;
     private int size;
@@ -44,7 +42,7 @@ public class ArrayDeque<T> {
     }
 
     private boolean isFull() {
-        return (this.last + 2) % this.items.length == this.front;
+        return size() == items.length;//(this.last + 2) % this.items.length == this.front;
     }
     public void addFirst(T x) {
         if (isFull()) {
@@ -65,7 +63,7 @@ public class ArrayDeque<T> {
         size += 1;
     }
     public boolean isEmpty() {
-        return this.size == 0;
+        return this.size() == 0;
     }
 
     private void resize(int newCapacity) {
@@ -73,8 +71,9 @@ public class ArrayDeque<T> {
         if (this.front > this.last) {
             System.arraycopy(this.items, 0, newItems, 0, this.last+1);
             final int lengthFromFrontToEnd = this.items.length - this.front;
-            System.arraycopy(this.items, this.front, newItems,
-                    newItems.length - lengthFromFrontToEnd, lengthFromFrontToEnd);
+            final int newFront = newItems.length - lengthFromFrontToEnd;
+            System.arraycopy(this.items, this.front, newItems, newFront, lengthFromFrontToEnd);
+            this.front = newFront;
         } else {
             //reset front at zero
             int lengthFromFrontToLast = this.last - this.front + 1;
@@ -109,13 +108,13 @@ public class ArrayDeque<T> {
         items[this.front] = null;
 
         this.front = isEmpty() ? this.front : (this.front + 1 + this.items.length) % this.items.length;
-        if (shouldResize()) {
+        if (shouldShrink()) {
             resize((int)(this.size() * RESIZE_FACTOR));
         }
         return x;
     }
 
-    private boolean shouldResize() {
+    private boolean shouldShrink() {
         return this.items.length >= CHECK_RATIO_CAPACITY
                 && (double)(this.size()) / this.items.length <= LOWEST_RATIO;
     }
@@ -131,7 +130,7 @@ public class ArrayDeque<T> {
         items[this.last] = null;
 
         this.last = isEmpty() ? this.last : (this.last - 1 + this.items.length) % this.items.length;
-        if (shouldResize()) {
+        if (shouldShrink()) {
             resize((int)(this.size() * RESIZE_FACTOR));
         }
         return x;

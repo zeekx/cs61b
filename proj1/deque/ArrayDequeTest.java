@@ -200,12 +200,13 @@ public class ArrayDequeTest {
         public void addFirstRemoveFirstCheckSize() {
             ArrayDeque<Integer> queue = new ArrayDeque<>();
             final int LEN = 8;
-            for (int i = 0; i < LEN; i++) {
+            for (int i = LEN-1; i >= 0; i--) {
                 queue.addFirst(i);
             }
             for (int i = 0; i < LEN; i++) {
-                queue.removeFirst();
+                assertEquals(i, queue.removeFirst().intValue());
             }
+            assertTrue(queue.isEmpty());
             for (int i = 0; i < LEN; i++) {
                 queue.addFirst(i);
             }
