@@ -103,10 +103,12 @@ public class ArrayDeque<T> {
         if(isEmpty()) {
             return null;
         }
+
         T x = get(0);
         size -= 1;
         items[this.front] = null;
-        this.front = (this.front + 1 + this.items.length) % this.items.length;
+
+        this.front = isEmpty() ? this.front : (this.front + 1 + this.items.length) % this.items.length;
         if (shouldResize()) {
             resize((int)(this.size() * RESIZE_FACTOR));
         }
@@ -123,10 +125,12 @@ public class ArrayDeque<T> {
         if(isEmpty()) {
             return null;
         }
+
         T x = getLast();
         size -= 1;
         items[this.last] = null;
-        this.last = (this.last - 1 + this.items.length) % this.items.length;
+
+        this.last = isEmpty() ? this.last : (this.last - 1 + this.items.length) % this.items.length;
         if (shouldResize()) {
             resize((int)(this.size() * RESIZE_FACTOR));
         }

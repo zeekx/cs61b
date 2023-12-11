@@ -2,7 +2,6 @@ package deque;
 
 import org.junit.Before;
 import org.junit.Test;
-import java.lang.reflect.Method;
 
 import static org.junit.Assert.*;
 
@@ -135,6 +134,41 @@ public class ArrayDequeTest {
         }
 
         @Test
+        public void addLastThenRemoveFirst() {
+            for (int i = 0; i < 8; i++) {
+                list.addLast(i);
+                list.removeFirst();
+            }
+            assertTrue(list.isEmpty());
+        }
+
+        @Test
+        public void addLastThenRemoveLast() {
+            for (int i = 0; i < 8; i++) {
+                list.addLast(i);
+                list.removeLast();
+            }
+            assertTrue(list.isEmpty());
+        }
+
+        @Test
+        public void addFirstThenRemoveFirst() {
+            for (int i = 0; i < 8; i++) {
+                list.addFirst(i);
+                list.removeFirst();
+            }
+            assertTrue(list.isEmpty());
+        }
+
+        @Test
+        public void addFirstThenRemoveLast() {
+            for (int i = 0; i < 8; i++) {
+                list.addFirst(i);
+                list.removeLast();
+            }
+            assertTrue(list.isEmpty());
+        }
+        @Test
         public void equalsInteger() {
             ArrayDeque<Integer> a = new ArrayDeque<>();
             ArrayDeque<Integer> b = new ArrayDeque<>();
@@ -265,8 +299,6 @@ public class ArrayDequeTest {
         @Test
         /* Check if you can create ArrayDeques with different parameterized types*/
         public void multipleParamTest() {
-
-
             ArrayDeque<String>  lld1 = new ArrayDeque<String>();
             ArrayDeque<Double>  lld2 = new ArrayDeque<Double>();
             ArrayDeque<Boolean> lld3 = new ArrayDeque<Boolean>();
