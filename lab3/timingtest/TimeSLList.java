@@ -22,7 +22,30 @@ public class TimeSLList {
     }
 
     public static void timeGetLast() {
-        // TODO: YOUR CODE HERE
-    }
+            int iterationBeginCount = 1000;
+            int experimentCount = 7;
+            int getTimes = 10000;
+
+            AList<Integer> funcCallCount = new AList<>();
+            AList<Double> times = new AList<>();
+            AList<Integer> opCounts = new AList<>();
+
+            for (int i = iterationBeginCount, expriment = 0; expriment < experimentCount; i += i, expriment += 1) {
+
+                SLList<Integer> aList = new SLList<>();
+                for (int j = 0; j < i; j++) {
+                    aList.addLast(j);
+                }
+                Stopwatch sp = new Stopwatch();
+                for (int j = 0; j < getTimes; j++) {
+                    aList.getLast();
+                }
+                Double usedTimeInSecond = sp.elapsedTime();
+                funcCallCount.addLast(i);
+                times.addLast(usedTimeInSecond);
+                opCounts.addLast(getTimes);
+            }
+            printTimingTable(funcCallCount, times, opCounts);
+        }
 
 }
