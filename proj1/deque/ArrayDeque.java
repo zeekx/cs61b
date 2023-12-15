@@ -1,23 +1,26 @@
 package deque;
 
-public class ArrayDeque<T> implements Deque<T> {
+import java.util.Iterator;
+
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private T[] items;
     private int size;
 
     private int front;
     private int last;
     private final float RESIZE_FACTOR = 1.618F;
-    private final double LOWEST_RATIO = 0.25;
-    private final static int INIT_CAPACITY = 8;
-    private final int CHECK_RATIO_CAPACITY = 16;
+    private static final double LOWEST_RATIO = 0.25;
+    private static final  int INIT_CAPACITY = 8;
+    private static final int CHECK_RATIO_CAPACITY = 16;
     /** Creates an empty list. */
     public ArrayDeque() {
         this(INIT_CAPACITY);
     }
 
+    // TODO: front = 1, last = 0;
     public ArrayDeque(int capacity) {
         this.size = 0;
-        this.front = 0; // TODO: front = 1, last = 0;
+        this.front = 0;
         this.last = 0;
         this.items = (T[])(new Object[capacity]);
     }
@@ -156,12 +159,35 @@ public class ArrayDeque<T> implements Deque<T> {
         return x;
     }
 
-    public static void main(String[] args) {
+    private static void main(String[] args) {
         ArrayDeque<Integer> list = new ArrayDeque<>();
         for (int i = 0; i < 100; i++) {
             list.addLast(i);
         }
         list.addLast(100);
         list.addLast(101);
+        for (Integer i:
+             list) {
+            System.out.println(i);
+        }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            private int index = ArrayDeque.this.front;
+            @Override
+            public boolean hasNext() {
+                int length = ArrayDeque.this.items.length;
+                return (this.index + 1) % length <= ArrayDeque.this.last;
+            }
+
+            @Override
+            public T next() {
+                T x = ArrayDeque.this.get(this.index);
+                this.index += 1;
+                return x;
+            }
+        };
     }
 }

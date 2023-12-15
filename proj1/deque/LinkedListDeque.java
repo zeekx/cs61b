@@ -2,9 +2,10 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Iterable<T>, Deque<T>{
+public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
 
-    public static void main(String[] args) {
+    // Move main method to private avoid gradescope check failed
+    private static void main(String[] args) {
         LinkedListDeque<Integer> ints = new LinkedListDeque<>();
         ints.addLast(0);
         ints.addLast(1);
@@ -59,10 +60,10 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T>{
         };
     }
 
-    public class Node<T> {
-        public T element;
-        public Node<T> prev;
-        public Node<T> next;
+    private static class Node<T> {
+        private T element;
+        private Node<T> prev;
+        private Node<T> next;
 
         public Node(T item) {
             this(item, null, null);
@@ -92,7 +93,7 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T>{
         }
     }
 
-    private Node<T> sentinel;
+    private final Node<T> sentinel;
 
     private int size;
 
