@@ -1,8 +1,8 @@
 package deque;
 
+import edu.princeton.cs.introcs.StdRandom;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 
 /** Performs some basic linked list tests. */
 public class LinkedListDequeTest {
@@ -29,9 +29,122 @@ public class LinkedListDequeTest {
 		lld1.addLast("back");
 		assertEquals(3, lld1.size());
 
-		System.out.println("Printing out deque: ");
+		// System.out.println("Printing out deque: ");
 		lld1.printDeque();
 
+    }
+
+    @Test
+    public void AddFirstRemoveLast() {
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        lld.addFirst(3);
+        int x = lld.removeLast();
+        assertEquals(3, x);
+    }
+
+    @Test
+    public void AddFirstTwiceRemoveLast() {
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        lld.addFirst(3);
+        lld.addFirst(4);
+        int x = lld.removeLast();
+        assertEquals(3, x);
+    }
+    @Test
+    public void AddFirstTripleRemoveLast() {
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        lld.addFirst(0);
+        lld.addFirst(1);
+        lld.addFirst(2);
+        lld.addFirst(4);
+        Integer x = lld.removeLast();
+        assertNotNull(x);
+
+        x = lld.removeLast();
+        assertNotNull(x);
+    }
+
+    @Test
+    public void AddFirst012RemoveLast() {
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        lld.addFirst(0);
+        lld.addFirst(1);
+        lld.addFirst(2);
+        Integer x = lld.removeLast();
+        assertEquals(Integer.valueOf(0), x);
+    }
+
+    @Test
+    public void TestRandomAddRemoveIsEmpty() {
+        java.util.LinkedList<Integer> ll = new java.util.LinkedList<>();
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        int N = 100000;
+        for (int i = 0; i < N; i++) {
+            assertEquals(ll.isEmpty(), lld.isEmpty());
+            boolean remove = StdRandom.uniform() < 0.5;
+            StringBuilder stringBuilder = new StringBuilder();
+            if (!ll.isEmpty() && remove) {
+                boolean removeFirst = StdRandom.uniform() < 0.5;
+                Integer llv = null;
+                Integer lldv = null;
+                if (removeFirst) {
+                    llv = ll.removeFirst();
+                    lldv = lld.removeFirst();
+                    // System.out.println("removeFirst() :" + llv);
+                } else {
+                    llv = ll.removeLast();
+                    lldv = lld.removeLast();
+                    // System.out.println("removeLast() :" + llv);
+                }
+                assertEquals(llv, lldv);
+                assertNotNull(lldv);
+            } else {
+                boolean addFirst = StdRandom.uniform() < 0.5;
+                if (addFirst) {
+                    ll.addFirst(i);
+                    lld.addFirst(i);
+                    stringBuilder.append("addFirst(");
+                } else {
+                    ll.addLast(i);
+                    lld.addLast(i);
+                    stringBuilder.append("addLast(");
+                }
+
+                stringBuilder.append(i);
+                stringBuilder.append(")");
+                // System.out.println(stringBuilder.toString());
+
+                assertEquals(ll.size(), lld.size());
+            }
+        }
+    }
+    @Test
+    public void TestRandomAddFirstRemoveLastIsEmpty() {
+        java.util.LinkedList<Integer> ll = new java.util.LinkedList<>();
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        int N = 10000;
+        for (int i = 0; i < N; i++) {
+            assertEquals(ll.isEmpty(), lld.isEmpty());
+            boolean remove = StdRandom.uniform() < 0.5;
+            StringBuilder stringBuilder = new StringBuilder();
+            if (!ll.isEmpty() && remove) {
+                Integer llv = ll.removeLast();
+                Integer lldv = lld.removeLast();
+                // System.out.println("removeLast() :" + llv);
+                assertEquals(llv, lldv);
+                assertNotNull(lldv);
+            } else {
+                ll.addFirst(i);
+                lld.addFirst(i);
+
+                stringBuilder.append("addFirst(");
+                stringBuilder.append(i);
+                stringBuilder.append(")");
+                // System.out.println(stringBuilder.toString());
+
+                assertEquals(ll.size(), lld.size());
+            }
+        }
     }
 
     @Test

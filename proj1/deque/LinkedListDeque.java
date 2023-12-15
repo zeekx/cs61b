@@ -3,21 +3,6 @@ package deque;
 import java.util.Iterator;
 
 public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
-
-    // Move main method to private avoid gradescope check failed
-    private static void main(String[] args) {
-        LinkedListDeque<Integer> ints = new LinkedListDeque<>();
-        ints.addLast(0);
-        ints.addLast(1);
-        ints.addLast(2);
-        ints.addLast(3);
-
-        for (int i: ints) {
-            System.out.println(i);
-        }
-
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -114,12 +99,12 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
      */
     @Override
     public void addFirst(T item) {
-        Node<T> node = new Node<T>(item);
-        node.next = this.sentinel.next;
-        this.sentinel.prev = node;
-
-        this.sentinel.next = node;
-        node.prev = this.sentinel;
+        Node<T> theNewFirst = new Node<T>(item);
+        Node<T> theOldFirst = sentinel.next;
+        theNewFirst.next = theOldFirst;
+        theNewFirst.prev = theOldFirst.prev;
+        theOldFirst.prev.next = theNewFirst;
+        theOldFirst.prev = theNewFirst;
 
         size += 1;
     }
@@ -207,8 +192,8 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
         }
         Node<T> last = this.sentinel.prev;
         Node<T> secondLast = last.prev;
-        secondLast.next = last.next;
-        this.sentinel.prev = secondLast;
+        secondLast.next = last.next; //secondLast.next -> sentinel
+        sentinel.prev = secondLast;
 
         size -= 1;
         return last.element;

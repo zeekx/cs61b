@@ -12,17 +12,13 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private static final double LOWEST_RATIO = 0.25;
     private static final  int INIT_CAPACITY = 8;
     private static final int CHECK_RATIO_CAPACITY = 16;
-    /** Creates an empty list. */
+    /**
+     * Creates an empty list. */
     public ArrayDeque() {
-        this(INIT_CAPACITY);
-    }
-
-    // TODO: front = 1, last = 0;
-    public ArrayDeque(int capacity) {
         this.size = 0;
-        this.front = 0;
+        this.front = 1;
         this.last = 0;
-        this.items = (T[])(new Object[capacity]);
+        this.items = (T[])(new Object[INIT_CAPACITY]);
     }
 
     @Override
@@ -57,7 +53,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             resize((int)(this.items.length * RESIZE_FACTOR));
         }
         final int length = this.items.length;
-        this.front = isEmpty() ? this.front : (this.front - 1 + length) % length;
+        this.front = (this.front - 1 + length) % length;
         items[this.front] = x;
         size += 1;
     }
@@ -67,7 +63,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (isFull()) { // full
             resize((int) (this.size * RESIZE_FACTOR));
         }
-        this.last = isEmpty() ? this.last : (this.last + 1) % this.items.length;
+        this.last = (this.last + 1) % this.items.length;
         items[this.last] = x;
         size += 1;
     }
@@ -91,7 +87,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     /** Returns the item from the back of the list. */
-    public T getLast() {
+    private T getLast() {
         return items[this.last];
     }
     /** Gets the ith item in the list (0 is the front). */
@@ -129,7 +125,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size -= 1;
         items[this.front] = null;
 
-        this.front = isEmpty() ? this.front : (this.front + 1 + this.items.length) % this.items.length;
+        this.front = (this.front + 1 + this.items.length) % this.items.length;
         if (shouldShrink()) {
             resize((int)(this.size() * RESIZE_FACTOR));
         }
@@ -152,7 +148,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size -= 1;
         items[this.last] = null;
 
-        this.last = isEmpty() ? this.last : (this.last - 1 + this.items.length) % this.items.length;
+        this.last = (this.last - 1 + this.items.length) % this.items.length;
         if (shouldShrink()) {
             resize((int)(this.size() * RESIZE_FACTOR));
         }

@@ -14,7 +14,7 @@ public class GuitarHero {
         return CONCERT_A * Math.pow(2, (index - 24) / 12.0);
     }
     public static void main(String[] args) {
-        Deque<GuitarString> strings = new ArrayDeque<>(KEYBOARD.length());
+        Deque<GuitarString> strings = new ArrayDeque<>();
         for (int i = 0; i < KEYBOARD.length(); i++) {
             strings.addLast(new GuitarString(getConcert(i)));
         }

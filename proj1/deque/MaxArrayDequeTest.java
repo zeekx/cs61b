@@ -8,6 +8,34 @@ import static org.junit.Assert.*;
 
 
 public class MaxArrayDequeTest {
+    static class Dog implements Comparable<Dog> {
+        public int getAge() {
+            return age;
+        }
+
+        private final int age;
+        public Dog(int age) {
+            this.age = age;
+        }
+
+        private static class AgeComparator implements Comparator<Dog> {
+            @Override
+            public int compare(Dog o1, Dog o2) {
+                return o1.age - o2.age;
+            }
+        }
+
+        public static Comparator<Dog> getAgeComparator() {
+            return new AgeComparator();
+        }
+        @Override
+        public int compareTo(Dog o) {
+            if (o == null) {
+                return 1;
+            }
+            return this.age - o.age;
+        }
+    }
     @Test
     public void maxNull() {
         MaxArrayDeque<Integer> queue = new MaxArrayDeque<>(null);
@@ -61,31 +89,4 @@ public class MaxArrayDequeTest {
     }
 }
 
-class Dog implements Comparable<Dog> {
-    public int getAge() {
-        return age;
-    }
 
-    private final int age;
-    public Dog(int age) {
-        this.age = age;
-    }
-
-    private static class AgeComparator implements Comparator<Dog> {
-        @Override
-        public int compare(Dog o1, Dog o2) {
-            return o1.age - o2.age;
-        }
-    }
-
-    public static Comparator<Dog> getAgeComparator() {
-        return new AgeComparator();
-    }
-    @Override
-    public int compareTo(Dog o) {
-        if (o == null) {
-            return 1;
-        }
-        return this.age - o.age;
-    }
-}

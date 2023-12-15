@@ -34,7 +34,7 @@ public class ArrayDequeTest {
     @Test
     public void addLast() {
         list.addLast(1);
-        assertTrue(list.getLast().equals(1));
+        assertTrue(list.get(list.size()-1).equals(1));
     }
 
     @Test
@@ -43,7 +43,7 @@ public class ArrayDequeTest {
         for (int i = 0; i < 100; i++) {
             list.addLast(i);
         }
-        assertTrue(list.getLast().equals(99));
+        assertTrue(list.get(list.size()-1).equals(99));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class ArrayDequeTest {
         for (int i = 0; i < 101; i++) {
             list.addLast(i);
         }
-        assertTrue(list.getLast().equals(100));
+        assertTrue(list.get(list.size()-1).equals(100));
     }
 
     @Test
@@ -73,7 +73,7 @@ public class ArrayDequeTest {
         list.addLast(1);
         list.addLast(2);
         list.removeLast();
-        assertTrue(list.getLast().equals(1));
+        assertTrue(list.get(list.size()-1).equals(1));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class ArrayDequeTest {
         }
         list.addLast(100);
         list.removeLast(); //remove the last '100'
-        assertTrue(list.getLast().equals(99));
+        assertTrue(list.get(list.size()-1).equals(99));
     }
 
     @Test

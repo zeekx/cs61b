@@ -12,7 +12,7 @@ public class GuitarString {
     private static final double DECAY = .996; // energy decay factor
 
     /* Buffer for storing sound data. */
-     private final Deque<Double> buffer;
+    private final Deque<Double> buffer;
 
     /* Create a guitar string of the given frequency.  */
     public GuitarString(double frequency) {
@@ -21,7 +21,7 @@ public class GuitarString {
         //       better accuracy, use the Math.round() function before casting.
         //       Your should initially fill your buffer array with zeros.
         int size = (int) Math.round(SR / frequency);
-        this.buffer = new ArrayDeque<Double>(size);
+        this.buffer = new ArrayDeque<Double>();
         Double zero = (double) 0;
         for (int i = 0; i < size; i++) {
             buffer.addLast(zero);
