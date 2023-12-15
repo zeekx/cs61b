@@ -3,6 +3,8 @@ package deque;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Iterator;
+
 import static org.junit.Assert.*;
 
 public class ArrayDequeTest {
@@ -87,6 +89,52 @@ public class ArrayDequeTest {
         assertTrue(list.get(list.size()-1).equals(99));
     }
 
+    @Test
+    public void equalLinkedListDeque() {
+        Deque<Integer> arrayDeque = new ArrayDeque<>();
+        Deque<Integer> linkedListDeque = new LinkedListDeque<>();
+        for (int i = 0; i < 3; i++) {
+            arrayDeque.addFirst(i);
+            linkedListDeque.addFirst(i);
+        }
+        assertEquals(arrayDeque, linkedListDeque);
+        assertEquals(linkedListDeque, arrayDeque);
+    }
+
+    @Test
+    public void iteratorAtEmpty() {
+        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
+        Iterator<Integer> it = arrayDeque.iterator();
+        assertFalse(it.hasNext());
+    }
+
+    @Test
+    public void iteratorAtNonEmpty() {
+        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
+        arrayDeque.addFirst(1);
+        Iterator<Integer> it = arrayDeque.iterator();
+        assertTrue(it.hasNext());
+
+        assertEquals(1, (int)it.next());
+        assertFalse(it.hasNext());
+    }
+
+    @Test
+    public void iterator100() {
+        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
+        int N = 1000;
+        for (int i = 0; i < N; i++) {
+            arrayDeque.addLast(i);
+        }
+        Iterator<Integer> it = arrayDeque.iterator();
+
+        for (int i = 0; i < N; i++) {
+            assertTrue(it.hasNext());
+            int x = it.next();
+            assertEquals(i, x);
+        }
+        assertFalse(it.hasNext());
+    }
     @Test
     public void testMegaInsert() {
         

@@ -26,11 +26,11 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof ArrayDeque)) {
+        if (!(obj instanceof Deque)) {
             return false;
         }
 
-        ArrayDeque<?> deque = (ArrayDeque<?>) obj;
+        Deque<?> deque = (Deque<?>) obj;
         if (this.size() != deque.size()) {
             return false;
         }
@@ -40,8 +40,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             }
         }
         return true;
-
-
     }
 
     private boolean isFull() {
@@ -155,27 +153,14 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         return x;
     }
 
-    private static void main(String[] args) {
-        ArrayDeque<Integer> list = new ArrayDeque<>();
-        for (int i = 0; i < 100; i++) {
-            list.addLast(i);
-        }
-        list.addLast(100);
-        list.addLast(101);
-        for (Integer i:
-             list) {
-            System.out.println(i);
-        }
-    }
-
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            private int index = ArrayDeque.this.front;
+            private int index = 0;
+            private final int length = ArrayDeque.this.items.length;
             @Override
             public boolean hasNext() {
-                int length = ArrayDeque.this.items.length;
-                return (this.index + 1) % length <= ArrayDeque.this.last;
+                return index < size();
             }
 
             @Override
