@@ -192,7 +192,7 @@ public class ArrayDequeTest {
             for (int i = 0; i < LEN; i++) {
                 queue.addFirst(i);
             }
-            assertEquals(8, queue.size());
+            assertEquals(LEN, queue.size());
             assertFalse(queue.isEmpty());
         }
 

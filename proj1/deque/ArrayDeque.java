@@ -1,6 +1,6 @@
 package deque;
 
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Deque<T> {
     private T[] items;
     private int size;
 
@@ -8,14 +8,18 @@ public class ArrayDeque<T> {
     private int last;
     private final float RESIZE_FACTOR = 1.618F;
     private final double LOWEST_RATIO = 0.25;
-    private final int INIT_CAPACITY = 8;
+    private final static int INIT_CAPACITY = 8;
     private final int CHECK_RATIO_CAPACITY = 16;
     /** Creates an empty list. */
     public ArrayDeque() {
+        this(INIT_CAPACITY);
+    }
+
+    public ArrayDeque(int capacity) {
         this.size = 0;
-        this.front = 0;
+        this.front = 0; // TODO: front = 1, last = 0;
         this.last = 0;
-        this.items = (T[])(new Object[INIT_CAPACITY]);
+        this.items = (T[])(new Object[capacity]);
     }
 
     @Override
@@ -44,6 +48,7 @@ public class ArrayDeque<T> {
     private boolean isFull() {
         return size() == items.length;//(this.last + 2) % this.items.length == this.front;
     }
+    @Override
     public void addFirst(T x) {
         if (isFull()) {
             resize((int)(this.items.length * RESIZE_FACTOR));
@@ -54,6 +59,7 @@ public class ArrayDeque<T> {
         size += 1;
     }
     /** Inserts X into the back of the list. */
+    @Override
     public void addLast(T x) {
         if (isFull()) { // full
             resize((int) (this.size * RESIZE_FACTOR));
@@ -61,9 +67,6 @@ public class ArrayDeque<T> {
         this.last = isEmpty() ? this.last : (this.last + 1) % this.items.length;
         items[this.last] = x;
         size += 1;
-    }
-    public boolean isEmpty() {
-        return this.size() == 0;
     }
 
     private void resize(int newCapacity) {
@@ -89,15 +92,31 @@ public class ArrayDeque<T> {
         return items[this.last];
     }
     /** Gets the ith item in the list (0 is the front). */
+    @Override
     public T get(int i) {
         return items[(this.front + i) % this.items.length];
     }
 
     /** Returns the number of items in the list. */
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
+    public void printDeque() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0; i < size(); i++) {
+            stringBuilder.append(get(i));
+            stringBuilder.append(' ');
+        }
+        if (stringBuilder.length() > 0) {
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        }
+        System.out.println(stringBuilder.toString());
+    }
+
+    @Override
     public T removeFirst() {
         if(isEmpty()) {
             return null;
@@ -120,6 +139,7 @@ public class ArrayDeque<T> {
     }
     /** Deletes item from back of the list and
      * returns deleted item. */
+    @Override
     public T removeLast() {
         if(isEmpty()) {
             return null;
