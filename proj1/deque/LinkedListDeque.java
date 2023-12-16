@@ -12,7 +12,7 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
             return false;
         }
 
-        Deque<?> anotherQueue = (Deque<?>)obj;
+        Deque<?> anotherQueue = (Deque<?>) obj;
 
         if (this.size() != anotherQueue.size()) {
             return false;
@@ -62,16 +62,16 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
             if (!(obj instanceof Node)) {
                 return false;
             }
-            Node<?> node = (Node<?>)obj;
+            Node<?> node = (Node<?>) obj;
             return this.element.equals(node.element);
         }
 
-        public Node() {
+        Node() {
             this.prev = null;
             this.next = null;
         }
 
-        public Node(T e, Node<T> prev, Node<T> next) {
+        Node(T e, Node<T> prev, Node<T> next) {
             this.element = e;
             this.prev = prev;
             this.next = next;
@@ -204,7 +204,7 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
      */
     public void printDeque() {
         StringBuilder stringBuilder = new StringBuilder();
-        for(Node<T> p = this.sentinel.next; p != this.sentinel; p = p.next ) {
+        for (Node<T> p = this.sentinel.next; p != this.sentinel; p = p.next) {
             stringBuilder.append(p.element);
             stringBuilder.append(' ');
         }

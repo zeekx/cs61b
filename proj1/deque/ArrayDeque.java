@@ -18,7 +18,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         this.size = 0;
         this.front = 1;
         this.last = 0;
-        this.items = (T[])(new Object[INIT_CAPACITY]);
+        this.items = (T[]) (new Object[INIT_CAPACITY]);
     }
 
     @Override
@@ -43,12 +43,12 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     private boolean isFull() {
-        return size() == items.length;//(this.last + 2) % this.items.length == this.front;
+        return size() == items.length; //(this.last + 2) % this.items.length == this.front;
     }
     @Override
     public void addFirst(T x) {
         if (isFull()) {
-            resize((int)(this.items.length * RESIZE_FACTOR));
+            resize((int) (this.items.length * RESIZE_FACTOR));
         }
         final int length = this.items.length;
         this.front = (this.front - 1 + length) % length;
@@ -67,9 +67,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     private void resize(int newCapacity) {
-        T[] newItems = (T[])(new Object[newCapacity]);
+        T[] newItems = (T[]) (new Object[newCapacity]);
         if (this.front > this.last) {
-            System.arraycopy(this.items, 0, newItems, 0, this.last+1);
+            System.arraycopy(this.items, 0, newItems, 0, this.last + 1);
             final int lengthFromFrontToEnd = this.items.length - this.front;
             final int newFront = newItems.length - lengthFromFrontToEnd;
             System.arraycopy(this.items, this.front, newItems, newFront, lengthFromFrontToEnd);
@@ -103,7 +103,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public void printDeque() {
         StringBuilder stringBuilder = new StringBuilder();
-        for(int i = 0; i < size(); i++) {
+        for (int i = 0; i < size(); i++) {
             stringBuilder.append(get(i));
             stringBuilder.append(' ');
         }
@@ -115,7 +115,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public T removeFirst() {
-        if(isEmpty()) {
+        if (isEmpty()) {
             return null;
         }
 
@@ -125,20 +125,20 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
         this.front = (this.front + 1 + this.items.length) % this.items.length;
         if (shouldShrink()) {
-            resize((int)(this.size() * RESIZE_FACTOR));
+            resize((int) (this.size() * RESIZE_FACTOR));
         }
         return x;
     }
 
     private boolean shouldShrink() {
         return this.items.length >= CHECK_RATIO_CAPACITY
-                && (double)(this.size()) / this.items.length <= LOWEST_RATIO;
+                && (double) (this.size()) / this.items.length <= LOWEST_RATIO;
     }
     /** Deletes item from back of the list and
      * returns deleted item. */
     @Override
     public T removeLast() {
-        if(isEmpty()) {
+        if (isEmpty()) {
             return null;
         }
 
@@ -148,7 +148,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
         this.last = (this.last - 1 + this.items.length) % this.items.length;
         if (shouldShrink()) {
-            resize((int)(this.size() * RESIZE_FACTOR));
+            resize((int) (this.size() * RESIZE_FACTOR));
         }
         return x;
     }
