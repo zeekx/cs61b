@@ -1,5 +1,7 @@
 package ch5;
 
+import org.junit.Test;
+
 import java.util.*;
 
 /***
@@ -43,6 +45,7 @@ public class ArrayMap<K, V> implements Map61B<K, V> {
     public void clear() {
 
     }
+
 
     public boolean containsKey(K key) {
         int index = keyIndex(key);
