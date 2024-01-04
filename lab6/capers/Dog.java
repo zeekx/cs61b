@@ -1,17 +1,17 @@
 package capers;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import static capers.Utils.*;
 
 /** Represents a dog that can be serialized.
  * @author TODO
 */
-public class Dog { // TODO
+public class Dog implements Serializable { // TODO
 
     /** Folder that dogs live in. */
-    static final File DOG_FOLDER = null; // TODO (hint: look at the `join`
-                                         //      function in Utils)
+    static final File DOG_FOLDER = Utils.join(CapersRepository.CAPERS_FOLDER, "dogs");
 
     /** Age of dog. */
     private int age;
@@ -39,7 +39,18 @@ public class Dog { // TODO
      * @return Dog read from file
      */
     public static Dog fromFile(String name) {
-        // TODO (hint: look at the Utils file)
+        File dogFile = Utils.join(DOG_FOLDER, name);
+        if (!dogFile.exists()) {
+            return null;
+        }
+        String dogString = Utils.readContentsAsString(dogFile);
+        String[] properties = dogString.split("\n");
+        if (properties.length == 3 ) {
+            String dogName = properties[0];
+            String breed = properties[1];
+            int age = Integer.parseInt(properties[2]);
+            return new Dog(dogName, breed, age);
+        }
         return null;
     }
 
@@ -56,7 +67,19 @@ public class Dog { // TODO
      * Saves a dog to a file for future use.
      */
     public void saveDog() {
-        // TODO (hint: don't forget dog names are unique)
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.name);
+        stringBuilder.append("\n");
+        stringBuilder.append(breed);
+        stringBuilder.append("\n");
+        stringBuilder.append(age);
+        try {
+            File dogFile = Utils.join(DOG_FOLDER, this.name);
+            dogFile.createNewFile();
+            Utils.writeContents(dogFile, stringBuilder.toString());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
