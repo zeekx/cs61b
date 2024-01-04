@@ -40,18 +40,7 @@ public class Dog implements Serializable { // TODO
      */
     public static Dog fromFile(String name) {
         File dogFile = Utils.join(DOG_FOLDER, name);
-        if (!dogFile.exists()) {
-            return null;
-        }
-        String dogString = Utils.readContentsAsString(dogFile);
-        String[] properties = dogString.split("\n");
-        if (properties.length == 3 ) {
-            String dogName = properties[0];
-            String breed = properties[1];
-            int age = Integer.parseInt(properties[2]);
-            return new Dog(dogName, breed, age);
-        }
-        return null;
+        return readObject(dogFile, Dog.class);
     }
 
     /**
@@ -67,16 +56,10 @@ public class Dog implements Serializable { // TODO
      * Saves a dog to a file for future use.
      */
     public void saveDog() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(this.name);
-        stringBuilder.append("\n");
-        stringBuilder.append(breed);
-        stringBuilder.append("\n");
-        stringBuilder.append(age);
         try {
             File dogFile = Utils.join(DOG_FOLDER, this.name);
             dogFile.createNewFile();
-            Utils.writeContents(dogFile, stringBuilder.toString());
+            writeObject(dogFile, this);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
