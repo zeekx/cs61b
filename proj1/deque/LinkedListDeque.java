@@ -83,13 +83,9 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
     private int size;
 
     public LinkedListDeque() {
-        Node<T> head = new Node<T>();
-        this.sentinel = head;
-        Node<T> tail = head;
-
-        head.next = tail;
-        tail.prev = head;
-
+        this.sentinel = new Node<T>(); // creates a new sentinel node
+        this.sentinel.next = this.sentinel; // sets the sentinel's next to itself
+        this.sentinel.prev = this.sentinel; // sets the sentinel's prev to itself
         this.size = 0;
     }
 

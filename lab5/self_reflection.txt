@@ -4,19 +4,19 @@ ArrayDeque:
 
 Q: Give an example of at least one idea from the staff solution that would have made your solution better (if any).
 
-A: 
+A: "Throws NoSuchElementException when next() is called with no more elements to return" by ChatGPT
 
 Q: What's something you felt proud of in your code, if anything?
 
-A:
+A: Well-structed
 
 Q: What's something that was particularly inelegant in your code, if anything?
 
-A:
+A: Lack of comment
 
 Q: What did you learn by talking to your partner about writing ArrayDeque?
 
-A:
+A: 
 
 Q: What do you wish you would have known before writing ArrayDeque, if anything?
 
@@ -32,7 +32,7 @@ LinkedListDeque:
 
 Q: Give an example of at least one idea from the staff solution that would have made your solution better (if any).
 
-A: 
+A: ChatGPT give me a better constructor
 
 Q: What's something you felt proud of in your code, if anything?
 
@@ -40,11 +40,11 @@ A:
 
 Q: What's something that was particularly inelegant in your code, if anything?
 
-A:
+A: In constructor, I created two nodes, but actually I only used one.
 
 Q: What did you learn by talking to your partner about writing LinkedListDeque?
 
-A:
+A: There're some code can be simpler.
 
 Q: What do you wish you would have known before writing LinkedListDeque, if anything?
 
