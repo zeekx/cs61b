@@ -32,7 +32,7 @@ public class QuickFindDS implements DisjointSets {
         DisjointSets finder = new QuickFindDS(7);
         finder.connect(0, 1);
         finder.connect(1, 2);
-        finder.connect(4, 2);
+        finder.connect(2, 4);
         finder.connect(3, 5);
     }
 }

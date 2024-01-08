@@ -32,7 +32,9 @@ public class WeightedQuickUnionDS implements DisjointSets {
     public void connect(int p, int q) {
         int i = find(p);
         int j= find(q);
-
+        if (i == j) {
+            return;
+        }
         int iSize = sizeAt(i);
         int jSize = sizeAt(j);
         if (iSize >= jSize) {
