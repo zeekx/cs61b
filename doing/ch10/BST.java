@@ -97,38 +97,38 @@ public class BST<T extends Comparable<T>, V> {
                 }
             }
         }
-        public static <T extends Comparable<T>, V> Node<T, V> delete(Node<T, V> parent, Node<T, V> node, T key) {
-            if (node == null) {
+
+        /**
+         *
+         * @param node
+         * @param key
+         * @return Return a new tree that does not contain the node with the specified key to be deleted.
+         * @param <T>
+         * @param <V>
+         */
+        public static <T extends Comparable<T>, V> Node<T, V> delete(Node<T, V> node, T key) {
+            if (node == null) { // basic condition
                 return null;
             }
             int compared = key.compareTo(node.key);
             if (compared < 0) {
-                node.left = delete(node, node.left, key);
+                node.left = delete(node.left, key);
                 return node;
             } else if (compared > 0) {
-                node.right = delete(node, node.right, key);
+                node.right = delete(node.right, key);
                 return node;
             } else {
-                if (node.left == null && node.right == null) {
-                    deleteFromParent(parent, node, null);
-                    return null;
-                } else if (node.right == null) { // node.left != null
-                    deleteFromParent(parent, node, node.left);
+                if (node.right == null) {
                     return node.left;
-                } else if (node.left == null) { // node.right != null
-                    deleteFromParent(parent, node, node.right);
+                } else if (node.left == null) {
                     return node.right;
                 } else {
                     // node.left != null && node.right != null
-                    Node<T, V> most = Node.leftMost(node.right);
-                    Node<T, V> withoutMost = delete(node, node.right, most.key);
-                    deleteFromParent(parent, node, most);
-                    most.right = withoutMost;
-                    most.left = node.left;
-
-                    return most;
+                    Node<T, V> min = Node.leftMost(node.right);
+                    min.right = delete(node.right, min.key); // without min in Right child
+                    min.left = node.left;
+                    return min;
                 }
-
             }
         }
 
@@ -162,7 +162,7 @@ public class BST<T extends Comparable<T>, V> {
     }
 
     public BST<T, V> delete(T value) {
-        this.root = Node.delete(null, root, value);
+        this.root = Node.delete(root, value);
         return this;
     }
     public boolean isValidate() {
