@@ -19,19 +19,19 @@ import static org.junit.Assert.*;
  *  alf  cat  elf  glut
  */
 public class BSTTest {
-    BST<String> bst;
+    BST<String, String> bst;
     @Before
     public void setUp() throws Exception {
-        BST<String> bst = new BST<>("dog");
+        BST<String, String> bst = new BST<>("dog", "dog");
         this.bst = bst;
 
-        bst.insert("bag");
-        bst.insert("alf");
-        bst.insert("cat");
+        bst.insert("bag", "bag");
+        bst.insert("alf", "alf");
+        bst.insert("cat", "cat");
 
-        bst.insert("flat");
-        bst.insert("elf");
-        bst.insert("glut");
+        bst.insert("flat", "flat");
+        bst.insert("elf", "elf");
+        bst.insert("glut", "glut");
     }
 
 
@@ -42,7 +42,7 @@ public class BSTTest {
 
     @Test
     public void check() {
-        BST<String> bst = new BST<>("=");
+        BST<String, String> bst = new BST<>("=", "=");
         assertTrue(bst.isValidate());
     }
     @Test
@@ -59,18 +59,18 @@ public class BSTTest {
 
     @Test
     public void deleteDog() {
-        BST<String> bst = this.bst.delete("dog");
+        BST<String, String> bst = this.bst.delete("dog");
         assertNotNull(bst);
         assertTrue(bst.isValidate());
     }
 
     @Test
     public void deleteAlf() {
-        BST<String> alf = this.bst.find("alf");
+        BST<String, String> alf = this.bst.find("alf");
         assertNotNull(alf);
-        BST<String> deletedAlf = this.bst.delete("alf");
+        BST<String, String> deletedAlf = this.bst.delete("alf");
         assertNotNull(deletedAlf);
-        BST<String> noAlf = this.bst.find("alf");
+        BST<String, String> noAlf = this.bst.find("alf");
         assertNull(noAlf);
         assertTrue(bst.isValidate());
     }
@@ -102,13 +102,40 @@ public class BSTTest {
         }
     }
 
+    @Test
+    public void deleteAllRandomlyLarge() {
+        String[] randomWords = { "xwtsn", "mlfyb", "gwlq", "aztkkcrs", "kqfqjnt", "puaawhquxh", "aalfodmrp", "hcggpbp",
+                "gulzpqtrc", "wzyxao", "ggg", "joqiqopgr", "ywxcrgernr", "ekgcmxrcg", "fbmt", "zsnw", "vts", "uwluyzhk",
+                "ohnow", "xjllod", "flkttjh", "blbeozzc", "juteyjzjga", "uaghf", "tbsjjs", "vpicpqsuqj", "eseta",
+                "sowsgbfew", "bolhtbjds", "kywx", "sdtez", "vwjdkxqgo", "hzr", "zopmnj", "czpajwmv", "ncnpivwkn",
+                "xwxdf", "ayrobmnh", "kariixfxgt", "brirv", "xedpjluzjk", "qftovq", "sncrvb", "qmdojs", "gmrkf",
+                "qrmnq", "vqshmqzu", "zhyhfdv", "iopmj", "xsv", "xks", "xiv", "okoowc", "vhgb", "kkdskegns",
+                "pqwdoysyd", "xpunzvzzel", "styu", "hqtoyy", "xfvplup", "ttovnn", "olfyuklsy", "sfhbqfwv", "xxkngmd",
+                "anns", "gor", "vdwiiicovn", "pcrjpcens", "yzxgmls", "xqqncfww", "fmz", "hvtnhiea", "ejcxyne",
+                "iivkiib", "ijrsxwf", "zwpgvwy", "gtqbl", "kcmwazb", "vea", "scg", "ffjabgmh", "rinjzaocnl", "pjokhj",
+                "zatz", "twdpcmif", "smqfbwobqm", "alvk", "ozndyji", "cnq", "johlllg", "kthxhlmhet", "uhus",
+                "tsmdclduh", "fpxxdbskf", "fjmplulhi", "jpginrkfa", "atss", "wctjtjrqt", "vkwndzedn", "ythrzyjxp" };
+        List<String> list = Arrays.asList(randomWords);
+        this.bst = new BST<>();
+
+        Collections.shuffle(list);
+        for (String key: list) {
+            bst.insert(key, key);
+        }
+
+        Collections.shuffle(list);
+        for (String key: list) {
+            deleteNode(key);
+        }
+    }
+
     private void deleteNode(String name) {
-        BST<String> alf = this.bst.find(name);
-        assertNotNull(alf);
-        BST<String> deletedAlf = this.bst.delete(name);
-        assertNotNull(deletedAlf);
-        BST<String> noAlf = this.bst.find(name);
-        assertNull(noAlf);
+        BST<String, String> node = this.bst.find(name);
+        assertNotNull(node);
+        BST<String, String> deletedNode = this.bst.delete(name);
+        assertNotNull(deletedNode);
+        BST<String, String> nothing = this.bst.find(name);
+        assertNull(nothing);
         assertTrue(bst.isValidate());
     }
 
